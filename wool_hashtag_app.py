@@ -13,7 +13,10 @@ HASHTAG_POOL = [
 ]
 
 def generate_hashtags(count=30):
-    return random.sample(list(HASHTAG_POOL), count)
+    return random.sample(HASHTAG_POOL, min(count, len(HASHTAG_POOL)))
+
+def format_hashtags(hashtags):
+    return ' '.join(hashtags)
 
 def add_one_hashtag(current_list):
     available = HASHTAG_POOL - set(current_list)
@@ -26,13 +29,25 @@ def add_one_hashtag(current_list):
 
 def main():
     st.title("Wool Hashtag Generator")
-    try:
-        if st.button("Generate Hashtags"):
-            hashtags = generate_hashtags()
-            st.write(hashtags)
-    except Exception as e:
-        st.error(f"An error occurred: {e}")
+    if 'hashtags' not in st.session_state:
+        st.session_state.hashtags = []
+
+    if st.button("Generate 30 Hashtags"):
+        st.session_state.hashtags = generate_hashtags()
+
+    if st.session_state.hashtags:
+        st.write("### Click a hashtag to delete and replace it:")
+        cols = st.columns(5)
+        for i, hashtag in enumerate(st.session_state.hashtags):
+            if cols[i % 5].button(hashtag, key=f"del_{i}"):
+                available = list(set(HASHTAG_POOL) - set(st.session_state.hashtags))
+                if available:
+                    new_tag = random.choice(available)
+                    st.session_state.hashtags[i] = new_tag
+                else:
+                    st.warning("No more unique hashtags to add.")
+        formatted = format_hashtags(st.session_state.hashtags)
+        st.text_area("Your hashtags (copy without quotes or commas):", formatted, height=150)
 
 if __name__ == "__main__":
     main()
-
