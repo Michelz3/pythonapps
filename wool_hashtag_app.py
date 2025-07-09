@@ -2,7 +2,7 @@
 import streamlit as st
 import random
 
-HASHTAG_POOL = set([
+HASHTAG_POOL = [
     "#knitting", "#knittersofinstagram", "#yarn", "#handdyed", "#wool", "#knitstagram", "#handknit",
     "#knitwear", "#knit", "#yarnaddict", "#knittingaddict", "#knittinglove", "#knitlife", "#knitspiration",
     "#knittingproject", "#knitpicks", "#handmade", "#knitting_inspiration", "#yarnlove", "#knittersoftheworld",
@@ -10,7 +10,7 @@ HASHTAG_POOL = set([
     "#knittingtime", "#knittingmakesmehappy", "#woolyarn", "#knittingpattern", "#knittingjoy", "#knittingtherapy",
     "#knittingcommunity", "#knittingstudio", "#knittingaddiction", "#knittingprocess", "#wooladdiction",
     "#knittinglifestyle", "#knittingideas", "#knittinggoals", "#knittinghappiness"
-])
+]
 
 def generate_hashtags(count=30):
     return random.sample(list(HASHTAG_POOL), count)
@@ -24,22 +24,15 @@ def add_one_hashtag(current_list):
     else:
         return None
 
-def non_interactive_demo():
-    hashtags = generate_hashtags()
-    added_tag = add_one_hashtag(hashtags)
-    removed_tag = hashtags.pop(0) if hashtags else None
-    return {
-        "hashtags": hashtags,
-        "added_tag": added_tag,
-        "removed_tag": removed_tag
-    }
+def main():
+    st.title("Wool Hashtag Generator")
+    try:
+        if st.button("Generate Hashtags"):
+            hashtags = generate_hashtags()
+            st.write(hashtags)
+    except Exception as e:
+        st.error(f"An error occurred: {e}")
 
 if __name__ == "__main__":
-    result = non_interactive_demo()
-    print("\n--- Wool Hashtag App Demo ---")
-    print(f"Added hashtag: {result['added_tag']}")
-    print(f"Removed hashtag: {result['removed_tag']}")
-    print(f"\nCurrent hashtag list ({len(result['hashtags'])} hashtags):")
-    for idx, tag in enumerate(result['hashtags']):
-        print(f"{idx}: {tag}")
+    main()
 
