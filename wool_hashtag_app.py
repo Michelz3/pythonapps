@@ -12,8 +12,12 @@ HASHTAG_POOL = [
     "#knittinglifestyle", "#knittingideas", "#knittinggoals", "#knittinghappiness"
 ]
 
-def generate_hashtags(count=30):
-    return random.sample(HASHTAG_POOL, min(count, len(HASHTAG_POOL)))
+HASHTAG_rainbow = ["#Rainbowyarn", "#Regenboogwol", "#Ringelwolle", "#Iloverainbows", "#Selfstripingrainbowyarn",
+                   "#Rainbowsocks"]
+
+def generate_hashtags(nr_regenboog, nr_wol):
+    return random.sample(HASHTAG_POOL, min(nr_wol, len(HASHTAG_POOL))) + random.sample(HASHTAG_rainbow, min(nr_regenboog, len(HASHTAG_rainbow)))
+
 
 def format_hashtags(hashtags):
     return ' '.join(hashtags)
@@ -31,7 +35,11 @@ def main():
     st.title("Wool Hashtag Generator")
     if 'hashtags' not in st.session_state:
         st.session_state.hashtags = []
+        
+    nr_regenboog = st.number_input(label= "Aantal #regenboog", min_value=0, max_value=8, value=0)
 
+    nr_wol = st.number_input(label="Aantal #wol", min_value=0, max_value=30, value=30)
+    
     if st.button("Generate 30 Hashtags"):
         st.session_state.hashtags = generate_hashtags()
 
