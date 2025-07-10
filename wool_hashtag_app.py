@@ -66,6 +66,9 @@ def main():
         formatted = format_hashtags(st.session_state.hashtags)
         st.text_area("Your hashtags (copy below):", formatted, height=150)
 
+        st.write("### One-click copy:")
+        st.code(formatted, language=None)
+        
 if __name__ == "__main__":
     main()
 
