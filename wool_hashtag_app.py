@@ -41,7 +41,7 @@ def main():
     nr_wol = st.number_input(label="Aantal #wol", min_value=0, max_value=30, value=30)
     
     if st.button("Generate Hashtags"):
-    st.session_state.hashtags = generate_hashtags(nr_regenboog, nr_wol)
+        st.session_state.hashtags = generate_hashtags(nr_regenboog, nr_wol)
 
     if st.session_state.hashtags:
         st.write("### Click a hashtag to delete and replace it:")
